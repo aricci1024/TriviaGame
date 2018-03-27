@@ -10,8 +10,7 @@
     <button type="button" class="btn btn-primary startBtn">Start Game</button>
     <div id="show-number"></div>
     <div id="game">
-        <form id="quizForm">
-        </form>
+        <form id="quizForm"></form>
     </div>
     <div id="game-over"></div>
 
@@ -20,6 +19,8 @@
     
     <!-- Script -->
     <script type="text/javascript">
+
+//=======================================================================================
     
     //Question array with possible answers and correct answers
     var questions = [
@@ -44,33 +45,57 @@
     var correctAnswers = 0;
     var number = 60;
     var intervalId;
-    var game = $("#game");
 
-
-//============================================================================
+//=====================================================================================
     
     $(document).ready(function() {
-        $(".startBtn").on("click",function() {
+        $(".startBtn").on("click", function() {
             $("button").remove(".startBtn");
             questionForm ();
+            run();
         });
 
+        
+
         function questionForm () {
-            // displays the question referenced and creates a radio button for for each possible answer for the referenced question        
+            var choices = questions[0].options;
+            // displays the question referenced         
             for (var i = 0; i < questions.length; i++) {
                 $("<h3>" + questions[i].text + "</h3>").appendTo("#quizForm");
-                $("<input type=radio>" + questions[i].options + "</input>").appendTo("#quizForm");
-            }
-        };
-    });
 
-    //TODO:
-        // add in timer
-        // record correct and incorrect
-        // add recored choices together to determine final totals
-        // display page with correct, incrrect, not guessed and "ALL DONE"
-        // add css elements to make it perty
-        // BONUS: Play again button
+                // creates a radio button for for each possible answer for the referenced question
+                for (var j = 0; j < choices.length; j++) {
+                    $("<input type=radio>" + choices[j] + "</input>").appendTo("#quizForm");
+                }
+            }      
+        };
+
+//======================================================================================
+
+// Game Timer
+    function run() {
+        clearInterval(intervalId);
+        intervalId = setInterval(decrement, 1000);
+        $("#show-number").html("<h2> Time Remaining: " + number + "</h2>");
+    }
+
+    function decrement() {
+        number--;
+        $("#show-number").html("<h2> Time Remaining: " + number + "</h2>");
+
+        if (number === 0) {
+            stop();
+            $("#game-over").html("<h2>Game Over</h2>");
+        }
+    }
+
+    function stop() {
+        clearInterval(intervalId);
+    }
+
+//======================================================================================
+
+    });
 
 
     </script>
