@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Trivia Game</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <button type="button" class="btn btn-primary startBtn">Start Game</button>
+    <div id="show-number"></div>
+    <div id="game">
+        <form id="quizForm">
+        </form>
+    </div>
+    <div id="game-over"></div>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <!-- Script -->
+    <script type="text/javascript">
+    
+    //Question array with possible answers and correct answers
+    var questions = [
+        {
+            text: "What is the capitol of Norway?",
+            options: ["Helsinki", "Oslo", "Copenhagen"],
+            answer: 1,
+        },
+        {
+            text: "What is in my pocket?",
+            options: ["A ring", "A fish", "My hand"],
+            answer: 0,
+        },
+        {
+            text: "What is in my pocket?",
+            options: ["A ring", "A fish", "My hand"],
+            answer: 0,
+        },
+    ];
+
+    var incorrectAnswers = 0;
+    var correctAnswers = 0;
+    var number = 60;
+    var intervalId;
+    var game = $("#game");
+
+
+//============================================================================
+    
+    $(document).ready(function() {
+        $(".startBtn").on("click",function() {
+            $("button").remove(".startBtn");
+            questionForm ();
+        });
+
+        function questionForm () {
+            // displays the question referenced and creates a radio button for for each possible answer for the referenced question        
+            for (var i = 0; i < questions.length; i++) {
+                $("<h3>" + questions[i].text + "</h3>").appendTo("#quizForm");
+                $("<input type=radio>" + questions[i].options + "</input>").appendTo("#quizForm");
+            }
+        };
+    });
+
+    //TODO:
+        // add in timer
+        // record correct and incorrect
+        // add recored choices together to determine final totals
+        // display page with correct, incrrect, not guessed and "ALL DONE"
+        // add css elements to make it perty
+        // BONUS: Play again button
+
+
+    </script>
+    
+</html>
