@@ -13,6 +13,7 @@
         <form id="quizForm"></form>
     </div>
     <div id="game-over"></div>
+    
 
     <!-- jQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -41,10 +42,11 @@
         },
     ];
 
-    var incorrectAnswers = 0;
-    var correctAnswers = 0;
-    var number = 60;
+    var incorrectAnswer = 0;
+    var correctAnswer = 0;
+    var number = 3;
     var intervalId;
+    var gameOver = $("#game-over")
 
 //=====================================================================================
     
@@ -52,28 +54,11 @@
         $(".startBtn").on("click", function() {
             $("button").remove(".startBtn");
             questionForm ();
-            run();
+            timer();
         });
+    });
 
-        
-
-        function questionForm () {
-            var choices = questions[0].options;
-            // displays the question referenced         
-            for (var i = 0; i < questions.length; i++) {
-                $("<h3>" + questions[i].text + "</h3>").appendTo("#quizForm");
-
-                // creates a radio button for for each possible answer for the referenced question
-                for (var j = 0; j < choices.length; j++) {
-                    $("<input type=radio>" + choices[j] + "</input>").appendTo("#quizForm");
-                }
-            }      
-        };
-
-//======================================================================================
-
-// Game Timer
-    function run() {
+    function timer () {
         clearInterval(intervalId);
         intervalId = setInterval(decrement, 1000);
         $("#show-number").html("<h2> Time Remaining: " + number + "</h2>");
@@ -84,19 +69,62 @@
         $("#show-number").html("<h2> Time Remaining: " + number + "</h2>");
 
         if (number === 0) {
-            stop();
-            $("#game-over").html("<h2>Game Over</h2>");
+            clearInterval(intervalId);
         }
+    }    
+
+    function questionForm () {
+        for (var i = 0; i < questions.length; i++) {
+            $("<h3>" + questions[i].text + "</h3>").appendTo("#quizForm");
+            for (var j = 0; j < questions[i].options.length; j++) {
+                $('<input type="radio" name="choice' + '-' + i + '" value="' + questions[i].options[j] + '">' + questions[i].options[j] + "</input>").appendTo("#quizForm");
+            }
+        }
+        $("<br>").appendTo("#quizForm");
+        $("<button type='button' class='btn btn-primary SubmitBtn'>Submit</button>").appendTo("#quizForm");
+    };
+    
+//==========================================================================================
+
+    function submitAnswers () {
+        // var guess = $("input[name=choice-0]:checked");
+        // $.each(guess), function () {
+        $.each($("input[name='choice-0']:checked"), function() {
+            if(guess.val() === questions.answer) {
+                correctAnswer++;
+                console.log("Right total: " + correctAnswer);
+            } else {
+                incorrectAnswer++;
+                console.log("Wrong total: " + incorrectAnswer);
+            }
+        });
     }
 
-    function stop() {
-        clearInterval(intervalId);
-    }
+        // function display () {
+        //     clearInterval(intervalId);
+        //     $("#game").remove();
+
+        // }
+    
+//======================================================================================
+
+// Game Timer
+    
+
+    // function results () {
+    //     game.html("<h3>Congraduations! You completed the quiz!</h3>")
+    //     game.append('<h3>Correct Answers: ' + correctAnswers + '</h3>');
+    //     game.append('<h3>Incorrect Answers: ' + incorrectAnswers + '</h3>');
+    //     game.append('<h3>Unanswered: ' + (questions.length - (incorrectAnswers + correctAnswers)) + '</h3>');
+    // }
 
 //======================================================================================
 
-    });
-
+// TODO:
+    // record user input as correct or incorrect
+    // Final screen to display
+        //show correct, incorrect, and unanswered
+    
 
     </script>
     
