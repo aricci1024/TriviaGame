@@ -6,13 +6,20 @@
 </head>
 
 <body>
-
-    <button type="button" class="btn btn-primary startBtn">Start Game</button>
-    <div id="show-number"></div>
-    <div id="game">
-        <form id="quizForm"></form>
+        <div class="container">
+        <button class="btn btn-primary" id="startBtn">Start</button>
+        <div id="show-number"></div>
+        <div id="currentQuestion"></div>
+        <div id="question"></div>
+        <div id="options"></div>
+        <div id="message"></div>
+        <div id="answerReveal"></div>
+        <div id="game-over"></div>
+        <div id="correctAnswers"></div>
+        <div id="incorrectAnswers"></div>
+        <div id="unanswered"></div>
+        <div id="startOverBtn"></div>
     </div>
-    <div id="game-over"></div>
     
 
     <!-- jQuery -->
@@ -21,90 +28,126 @@
     <!-- Script -->
     <script type="text/javascript">
 
-//=======================================================================================
+
+//======================= Questions and global variables ==================================
+
+
+var questions = [{
+	text: "What type of rocks from from the crystalization and consolidation of magma?",
+	options: ["Sedimentary", "Igneous", "Metamoprphic", "Basalt"],
+	answer: 1
+},{
+	text: "Which of these is not a fault boundry?",
+	options: ["Transform", "Convergent", "Ridge", "Divergent"],
+	answer: 2
+},{
+	text: "What law states states that in undeformed stratigraphic sequences, the oldest strata will be at the bottom of the sequence?",
+	options: ["Cross-cutting relationships", "Uniformitarianism", "Original Horizontality", "Superposition"],
+	answer: 3
+},{
+	text: "How were the Hawaiian Islands created?",
+	options: ["Hot Spot", "Pillow Basalt", "Supervolcano", "Coral reef"],
+	answer: 0
+},{
+	text: "What was the last major supercontinent to form?",
+	options: ["Gondwana", "Pangaea", "Pannotia", "Rodinia"],
+	answer: 1
+}];
+
+var currentQuestion; 
+var correctAnswer; 
+var incorrectAnswer; 
+var unanswered; 
+var intervalId; 
+var answered; 
+var userSelect;
+
+
+//========================== on.click events ==========================================
+
+
+$("#startBtn").on("click", function(){
+	$("#startBtn").hide();
+	newGame();
+});
+
+$("#startOverBtn").on("click", function(){
+	$("#startOverBtn").hide();
+	newGame();
+});
+
+
+//========================= starts a new game =============================
+
+
+function newGame(){
+    //resets the user responses and the divs
+	$("#game-over").empty();
+	$("#correctAnswers").empty();
+	$("#incorrectAnswers").empty();
+	$("#unanswered").empty();
+	currentQuestion = 0;
+	correctAnswer = 0;
+	incorrectAnswer = 0;
+    unanswered = 0;
+    // call the new question function to display a new question and start the game
+	newQuestion();
+}
+
+
+//======================== displays the question ==================================================
+
+
+function newQuestion(){
+    $("#message").empty();
+	$("#answerReveal").empty();
+	answered = true;
+	
+	//displays the new question
+    $("#question").html("<h2>" + questions[currentQuestion].text + "</h2>");
     
-    //Question array with possible answers and correct answers
-    var questions = [
-        {
-            text: "What is the capitol of Norway?",
-            options: ["Helsinki", "Oslo", "Copenhagen"],
-            answer: 1,
-        },
-        {
-            text: "What is in my pocket?",
-            options: ["A ring", "A fish", "My hand"],
-            answer: 0,
-        },
-        {
-            text: "What is in my pocket?",
-            options: ["A ring", "A fish", "My hand"],
-            answer: 0,
-        },
-    ];
-
-    var incorrectAnswer = 0;
-    var correctAnswer = 0;
-    var number = 3;
-    var intervalId;
-    var gameOver = $("#game-over")
-
-//=====================================================================================
+    //displays the answer choices
+    for(var i = 0; i < questions[i].options.length; i++){
+        //creates a new div
+        var choices = $("<div>");
+        //adds the option to the div
+        choices.text(questions[currentQuestion].options[i]);
+        //creates a an attribute to caputre the option
+		choices.attr({"data-index": i });
+        choices.addClass("thisChoice");
+        //append and display answer options
+		$("#options").append(choices);
+	}
+    timer();
     
-    $(document).ready(function() {
-        $(".startBtn").on("click", function() {
-            $("button").remove(".startBtn");
-            questionForm ();
-            timer();
-        });
-    });
+	//once an answer is clicked, stop the timer and move to the transition page
+	$(".thisChoice").on("click",function(){
+		userSelect = $(this).data("index");
+		clearInterval(intervalId);
+		transitionPage();
+	});
+}
 
-    function timer () {
-        clearInterval(intervalId);
-        intervalId = setInterval(decrement, 1000);
-        $("#show-number").html("<h2> Time Remaining: " + number + "</h2>");
-    }
 
-    function decrement() {
-        number--;
-        $("#show-number").html("<h2> Time Remaining: " + number + "</h2>");
+//=====================the countdown timer for each question page ====================================
 
-        if (number === 0) {
-            clearInterval(intervalId);
-        }
-    }    
 
-    function questionForm () {
-        for (var i = 0; i < questions.length; i++) {
-            $("<h3>" + questions[i].text + "</h3>").appendTo("#quizForm");
-            for (var j = 0; j < questions[i].options.length; j++) {
-                $('<input type="radio" name="choice' + '-' + i + '" value="' + questions[i].options[j] + '">' + questions[i].options[j] + "</input>").appendTo("#quizForm");
-            }
-        }
-        $("<br>").appendTo("#quizForm");
-        $("<button type='button' class='btn btn-primary SubmitBtn'>Submit</button>").appendTo("#quizForm");
-    };
-    
-//==========================================================================================
+function timer(){
+    count = 10;
+	$('#show-number').html('<h3>Time Remaining: ' + count + '</h3>');
+	//decrement timer
+	intervalId = setInterval(decrement, 1000);
+}
 
-    function submitAnswers () {
-        // var guess = $("input[name=choice-0]:checked");
-        // $.each(guess), function () {
-        $.each($("input[name='choice-0']:checked"), function() {
-            if(guess.val() === questions.answer) {
-                correctAnswer++;
-                console.log("Right total: " + correctAnswer);
-            } else {
-                incorrectAnswer++;
-                console.log("Wrong total: " + incorrectAnswer);
-            }
-        });
-    }
-
-        // function display () {
-        //     clearInterval(intervalId);
-        //     $("#game").remove();
-
-        // }
+function decrement(){
+	count--;
+	$('#show-number').html('<h3>Time Remaining: ' + count + '</h3>');
+	if(count === 0){
+		clearInterval(intervalId);
+		answered = false;
+		transitionPage();
+	}
+}
     
 //======================================================================================
 
