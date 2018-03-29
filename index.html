@@ -20,7 +20,7 @@
         <div id="currentQuestion"></div>
         <div id="question"></div>
         <div id="options"></div>
-        <div id="message"></div>
+        <div id="status"></div>
         <div id="answerReveal"></div>
         <div id="game-over"></div>
         <div id="correctAnswers"></div>
@@ -131,7 +131,7 @@ function decrement(){
 
 
 function newQuestion(){
-    $("#message").empty();
+    $("#status").empty();
 	$("#answerReveal").empty();
 	answered = true;
 	
@@ -178,16 +178,16 @@ function transitionPage(){
     //for correct answers, add to correct count and display message
 	if((userSelect === AnswerIndex) && (answered === true)){
         correctAnswer++;
-        $("#message").html("Correct!!!!");
+        $("#status").html("Correct!!!!");
     //for wrong answers, adds to incorrect count and displays message and correct answer
 	} else if((userSelect != AnswerIndex) && (answered === true)){
         incorrectAnswer++;
-        $("#message").html("Sorry, wrong answer!");
+        $("#status").html("Sorry, wrong answer!");
 		$("#answerReveal").html("The correct answer was: " + AnswerText);
     //if time runs out before answer is chosen, add to unanswered and display message and correct answer
     } else{
         unanswered++;
-        $("#message").html("You ran out of time!");
+        $("#status").html("You ran out of time!");
 		$("#answerReveal").html("The correct answer was: " + AnswerText);
 	}
     
@@ -201,26 +201,27 @@ function transitionPage(){
 }
 
 
-//======================================================================================
+//==========================shows how the user did ====================================
 
-// Game Timer
-    
 
-    // function results () {
-    //     game.html("<h3>Congraduations! You completed the quiz!</h3>")
-    //     game.append('<h3>Correct Answers: ' + correctAnswers + '</h3>');
-    //     game.append('<h3>Incorrect Answers: ' + incorrectAnswers + '</h3>');
-    //     game.append('<h3>Unanswered: ' + (questions.length - (incorrectAnswers + correctAnswers)) + '</h3>');
-    // }
-
-//======================================================================================
-
-// TODO:
-    // record user input as correct or incorrect
-    // Final screen to display
-        //show correct, incorrect, and unanswered
-    
+function gameOver(){
+    //clear div with values from the previous game
+	$("#show-number").empty();
+	$("#status").empty();
+    $("#answerReveal").empty();
+    //shows game over text
+	$("#game-over").html("Game Over! Check out your results below!");
+    //shows the number of correct answers
+    $("#correctAnswers").html("Correct Answers: " + correctAnswer);
+    //shows the number of incorrect answers
+    $("#incorrectAnswers").html("Incorrect Answers: " + incorrectAnswer);
+    //shows the number of unanswered questions
+    $("#unanswered").html("Unanswered: " + unanswered);
+    //button to reset the game
+    $("#startOverBtn").addClass("reset");
+	$("#startOverBtn").show();
+	$("#startOverBtn").html("Click to replay");
+}
 
     </script>
-    
 </html>
