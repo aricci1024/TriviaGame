@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Trivia Game</title>
+    <title>Geology Trivia Game</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Boogaloo|Maiden+Orange|Walter+Turncoat" rel="stylesheet">
 </head>
 
+<style>
+
+</style>
+    
 <body>
-        <div class="container">
+    <header>
+        <h1>Geology Trivia Game</h1>
+    </header>
+    <div class="container">
         <button class="btn btn-primary" id="startBtn">Start</button>
         <div id="show-number"></div>
         <div id="currentQuestion"></div>
@@ -150,6 +158,46 @@ function newQuestion(){
 		clearInterval(intervalId);
 		transitionPage();
 	});
+}
+
+
+//=========================== after user picks or time runs out changes to the next question=========================================================================
+
+
+function transitionPage(){
+    //clears the question page and the options
+	$("#currentQuestion").empty();
+	$(".thisChoice").empty();
+	$("#question").empty();
+
+    //variables to be used to display the answer as text
+	var AnswerText = questions[currentQuestion].options[questions[currentQuestion].answer];
+	var AnswerIndex = questions[currentQuestion].answer;
+    
+    //checks to see correct, incorrect, or unanswered
+    //for correct answers, add to correct count and display message
+	if((userSelect === AnswerIndex) && (answered === true)){
+        correctAnswer++;
+        $("#message").html("Correct!!!!");
+    //for wrong answers, adds to incorrect count and displays message and correct answer
+	} else if((userSelect != AnswerIndex) && (answered === true)){
+        incorrectAnswer++;
+        $("#message").html("Sorry, wrong answer!");
+		$("#answerReveal").html("The correct answer was: " + AnswerText);
+    //if time runs out before answer is chosen, add to unanswered and display message and correct answer
+    } else{
+        unanswered++;
+        $("#message").html("You ran out of time!");
+		$("#answerReveal").html("The correct answer was: " + AnswerText);
+	}
+    
+    //amount of time that the above info is displayed befored we display the next question
+	if(currentQuestion === (questions.length-1)){
+		setTimeout(gameOver, 3000)
+	} else{
+		currentQuestion++;
+		setTimeout(newQuestion, 3000);
+	}	
 }
 
 
