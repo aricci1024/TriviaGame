@@ -36,19 +36,23 @@ var questions = [{
 	text: "What type of rocks from from the crystalization and consolidation of magma?",
 	options: ["Sedimentary", "Igneous", "Metamoprphic", "Basalt"],
 	answer: 1
-},{
+    },
+    {
 	text: "Which of these is not a fault boundry?",
 	options: ["Transform", "Convergent", "Ridge", "Divergent"],
 	answer: 2
-},{
+    },
+    {
 	text: "What law states states that in undeformed stratigraphic sequences, the oldest strata will be at the bottom of the sequence?",
 	options: ["Cross-cutting relationships", "Uniformitarianism", "Original Horizontality", "Superposition"],
 	answer: 3
-},{
+    },
+    {
 	text: "How were the Hawaiian Islands created?",
 	options: ["Hot Spot", "Pillow Basalt", "Supervolcano", "Coral reef"],
 	answer: 0
-},{
+    },
+    {
 	text: "What was the last major supercontinent to form?",
 	options: ["Gondwana", "Pangaea", "Pannotia", "Rodinia"],
 	answer: 1
@@ -94,6 +98,26 @@ function newGame(){
 	newQuestion();
 }
 
+//=====================the countdown timer for each question page ====================================
+
+
+function timer(){
+    count = 10;
+	$('#show-number').html('<h3>Time Remaining: ' + count + '</h3>');
+	//decrement timer
+	intervalId = setInterval(decrement, 1000);
+}
+
+function decrement(){
+	count--;
+	$('#show-number').html('<h3>Time Remaining: ' + count + '</h3>');
+	if(count === 0){
+		clearInterval(intervalId);
+		answered = false;
+		transitionPage();
+	}
+}
+    
 
 //======================== displays the question ==================================================
 
@@ -129,26 +153,6 @@ function newQuestion(){
 }
 
 
-//=====================the countdown timer for each question page ====================================
-
-
-function timer(){
-    count = 10;
-	$('#show-number').html('<h3>Time Remaining: ' + count + '</h3>');
-	//decrement timer
-	intervalId = setInterval(decrement, 1000);
-}
-
-function decrement(){
-	count--;
-	$('#show-number').html('<h3>Time Remaining: ' + count + '</h3>');
-	if(count === 0){
-		clearInterval(intervalId);
-		answered = false;
-		transitionPage();
-	}
-}
-    
 //======================================================================================
 
 // Game Timer
