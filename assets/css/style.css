@@ -1,0 +1,61 @@
+body{
+    background: url('../images/adventure-alpine-background-355770.jpg');
+    font-family: 'Maiden Orange', cursive;
+    letter-spacing: 2px;
+    background-size: 125%;
+    font-size: 25px;
+}
+
+header {
+    margin-bottom: 10px;
+    text-align: center;
+    margin-top: 60px;
+}
+
+h1 {
+    font-size: 80px;
+}
+
+.btn-primary {
+    background-color: #632b16;
+    color: white;
+    font-family: 'Maiden Orange', cursive;
+    letter-spacing: 2px;
+    font-size: 50px;
+    padding: 15px;
+    padding-left:100px;
+    padding-right:100px;
+    letter-spacing: 2px;
+    margin-top: 30px;
+}
+
+.reset {
+    background-color: #632b16;
+    color: white;
+    font-family: 'Maiden Orange', cursive;
+    font-size: 20px;
+    padding: 10px;
+    letter-spacing: 2px;
+    margin-top: 20px;
+}
+
+.btn-primary:hover, .reset:hover{
+    background-color: #632b16;
+}
+
+.container{
+    text-align: center;
+    height: 100%;
+    width: 600px;
+}
+
+h2, #status, {
+    font-family: 'Maiden Orange', cursive;
+    letter-spacing: 2px;
+}
+
+.thisChoice:hover{
+    background-color: #632b16;
+    color: white;
+    padding: 5px;
+}
