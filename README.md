@@ -1,12 +1,10 @@
 # TriviaGame
 Simple Trivia Game
 
-- You'll create a trivia form with multiple choice or true/false options (your choice).
+- A multiple choice geology trivia game.
 
-- The player will have a limited amount of time to finish the quiz.
+- The player will have a limited amount of time to finish each question.
 
-- The game ends when the time runs out. The page will reveal the number of questions that players answer correctly and incorrectly.
+- The game moves on to the next question when the time runs out. After the last question is aswered, or time runs out, page will reveal the number of questions that players answer correctly, incorrectly, and unanswered.
 
-- Don't let the player pick more than one answer per question.
-
-- Don't forget to include a countdown timer.
+Enjoy testing out your geology knowledge with the test here: https://aricci1024.github.io/TriviaGame/
